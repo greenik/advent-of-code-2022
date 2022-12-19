@@ -177,7 +177,7 @@ let minRow = Number.POSITIVE_INFINITY;
 let maxCol = -1;
 let minCol = Number.POSITIVE_INFINITY;
 let floorCord = -1;
-const grid = [];
+const grid: string[][] = [];
 
 const findMaxBounds = () => {
   traces.forEach((trace: string) => {
@@ -250,7 +250,7 @@ const moveSand = (row: number, col: number): boolean => {
 }
 
 const drawCave = () => {
-  const drawGrid = [];
+  const drawGrid: string[][] = [];
   for (let row = 0, i = 0; row <= floorCord; row++, i++) {
     drawGrid.push([]);
     for (let col = 326, j = 0; col <= 677; col++, j++) {

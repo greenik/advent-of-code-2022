@@ -108,11 +108,11 @@ const getOperationResult = (operation: string, oldValue: bigint): bigint => {
 
 const prepareInitData = () => {
   monkeysRawData.forEach((monkeyData: string, index: number) => {
-    const startingItems: bigint[] = monkeyData.match(STARTING_ITEMS_REGEX)[0].split(', ').map((val: string) => BigInt(val));
-    const operation: string = monkeyData.match(OPERATION_REGEX)[0];
-    const divisibleBy: bigint = BigInt(monkeyData.match(DIVISIBLE_BY_REGEX)[0]);
-    const testTrueResult: number = +monkeyData.match(TEST_RESULT_TRUE_REGEX)[0];
-    const testFalseResult: number = +monkeyData.match(TEST_RESULT_FALSE_REGEX)[0];
+    const startingItems: bigint[] = monkeyData.match(STARTING_ITEMS_REGEX)![0].split(', ').map((val: string) => BigInt(val));
+    const operation: string = monkeyData.match(OPERATION_REGEX)![0];
+    const divisibleBy: bigint = BigInt(monkeyData.match(DIVISIBLE_BY_REGEX)![0]);
+    const testTrueResult: number = +monkeyData.match(TEST_RESULT_TRUE_REGEX)![0];
+    const testFalseResult: number = +monkeyData.match(TEST_RESULT_FALSE_REGEX)![0];
 
     if (!monkeysArray[index]) {
       monkeysArray.push({

@@ -527,7 +527,7 @@ const parseStacks = () => {
   const lines = rawLines.map((line) => line.split(''));
   const SIGNS_IN_COLUMN = 4;
   const stacksNo = Math.ceil(lines[0].length / SIGNS_IN_COLUMN);
-  const stacks = [];
+  const stacks: string[][] = [];
   lines.forEach((line: string[], lineIndex: number) => {
     for (let i = 0; i < stacksNo; i++) {
       if (lineIndex === 0) {
@@ -546,9 +546,9 @@ const parseStacks = () => {
 const moveStacks = (stacks: Array<string[]>, shouldReverse: boolean) => {
   const moves = movesInput.split('\n');
   moves.forEach((move: string) => {
-    const count = Number(move.match(MOVE_COUNT_REGEX)[0]);
-    const source = Number(move.match(SOURCE_REGEX)[0]) - 1;
-    const destination = Number(move.match(DESTINATION_REGEX)[0]) - 1;
+    const count = Number(move.match(MOVE_COUNT_REGEX)![0]);
+    const source = Number(move.match(SOURCE_REGEX)![0]) - 1;
+    const destination = Number(move.match(DESTINATION_REGEX)![0]) - 1;
     const movingElements = stacks[source].splice(0, count);
     if (shouldReverse) {
       movingElements.reverse();

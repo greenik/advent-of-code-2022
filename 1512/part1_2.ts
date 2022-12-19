@@ -55,7 +55,7 @@ const allBeacons = new Set();
 
 const prepareData = () => {
   readings.forEach((reading: string) => {
-    const [sX, sY, bX, bY] = reading.match(NUMBER_REGEX).map((cord: string) => Number(cord));
+    const [sX, sY, bX, bY] = reading.match(NUMBER_REGEX)!.map((cord: string) => Number(cord));
     const distance = getDistance(sX, sY, bX, bY);
     pairs.push([sX, sY, distance]);
     allBeacons.add(`${bX},${bY}`);
@@ -84,10 +84,10 @@ const calculateNotBeaconsCells = (calculatingLine: number): number => {
   return notBeacons.size;
 }
 
-const findTuningFrequency = (): number => {
+const findTuningFrequency = (): number | undefined => {
   const MAX_LINE_AND_MULTIPLIER = 4000000;
   for (let calculatingLine = 0; calculatingLine <= MAX_LINE_AND_MULTIPLIER; calculatingLine++) {
-    let ranges = [];
+    let ranges: number[][] = [];
     pairs.forEach(([sX, sY, pairDistance]: [number, number, number]) => {
       const distanceFromSensorToLine = Math.abs(sY - calculatingLine);
       if (distanceFromSensorToLine <= pairDistance) {

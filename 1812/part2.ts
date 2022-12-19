@@ -2166,7 +2166,7 @@ const MAXES = {
   y: 0,
   z: 0
 };
-const ADJECENT_CORDS = [
+const ADJECENT_CORDS: [number, number, number][] = [
   [1, 0, 0],
   [-1, 0, 0],
   [0, 1, 0],
@@ -2176,7 +2176,7 @@ const ADJECENT_CORDS = [
 ];
 
 const droplets = input.split('\n');
-let GRID;
+let GRID: number[][][];
 
 const findMaxes = () => {
   droplets.forEach((droplet: string) => {
@@ -2208,7 +2208,7 @@ const queue: [number, number, number][] = [
 ];
 
 const getSiblingsData = ([x, y, z]: [number, number, number]): [number, [number, number, number][]] => {
-  const siblings = [];
+  const siblings: [number, number, number][] = [];
   let metLavaSides = 0;
 
   ADJECENT_CORDS.forEach(([modX, modY, modZ]: [number, number, number]) => {
@@ -2238,7 +2238,7 @@ let outerSidesCount = 0;
 const floodFill = () => {
   const visited = new Set();
   while (queue.length > 0) {
-    const current = queue.shift();
+    const current = queue.shift()!;
     const visitedKey = getVisistedKeyForCords(current);
     visited.add(visitedKey);
     GRID[current[0]][current[1]][current[2]] = 2;

@@ -2503,19 +2503,19 @@ B X
 C Y
 C Y`
 
-const POINTS_TABLE_FOR_CHOSEN_FIGURE = {
+const POINTS_TABLE_FOR_CHOSEN_FIGURE: Record<string, number> = {
   X: 1,
   Y: 2,
   Z: 3
 };
 
-const WIN_POINTS_TABLE = {
+const WIN_POINTS_TABLE: Record<string, number> = {
   X: 0,
   Y: 3,
   Z: 6
 };
 
-const RESULTS_TABLE = {
+const RESULTS_TABLE: Record<string, Record<number, string>> = {
   // ROCK
   A: {
     3: 'X', // ROCK

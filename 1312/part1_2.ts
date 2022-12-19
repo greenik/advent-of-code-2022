@@ -475,7 +475,7 @@ const input = `[[4,[1,[]]],[8,3,[[0,2],[5,2,6],[7,0,10,0],2,[5,7,10,2]],[[5,9],5
 const validPairIds: number[] = [];
 const pairs: string[] = input.split('\n\n');
 
-const compareNumbers = (leftValue: number, rightValue: number): boolean => {
+const compareNumbers = (leftValue: number, rightValue: number): boolean | null => {
   if (leftValue < rightValue) return true;
   if (leftValue > rightValue) return false;
   return null;
@@ -497,13 +497,15 @@ const areBothSidesNumbers = (left: number | Array<any>, right: number | Array<an
   return typeof left === 'number' && typeof right === 'number';
 }
 
-const compareTwoSides = (left: number | Array<any>, right: number | Array<any>) => {
+const compareTwoSides = (left: number | Array<any>, right: number | Array<any>): boolean | null => {
   // both cmp sides are numbers
   if (areBothSidesNumbers(left, right)) {
     return compareNumbers(left as number, right as number);
   } else if (areBothSidesArrays(left, right)) {
     for (let i = 0; i < (right as Array<any>).length; i++) {
+      //@ts-ignore
       const leftValue = left[i];
+      //@ts-ignore
       const rightValue = right[i];
       // left side is fewer - input is valid
       if (isUndefined(leftValue)) {
@@ -517,6 +519,7 @@ const compareTwoSides = (left: number | Array<any>, right: number | Array<any>) 
     if ((right as Array<any>).length < (left as Array<any>).length) {
       return false;
     }
+    return null;
   } else {
     // one of the values is not different than the other
     const newLeft = Array.isArray(left) ? left : [left];

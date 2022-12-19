@@ -91,7 +91,7 @@ const valvesWithFlow: string[] = [];
 
 lines.forEach((line: string) => {
   const matches = line.match(REGEX)
-  const [_, sourceValve, flowRateStr, destinationValves] = matches;
+  const [_, sourceValve, flowRateStr, destinationValves] = matches as any;
   const flowRate = +flowRateStr;
 
   flowRates[sourceValve] = flowRate;
@@ -133,7 +133,7 @@ const isValveOpened = (current: number, valve: string): boolean => {
   return isOpenNum > 0;
 }
 
-const bestResultAtMaxTimeDict = {}; // key: openValvesMask, value: maxGasFlow
+const bestResultAtMaxTimeDict: Record<string, number> = {}; // key: openValvesMask, value: maxGasFlow
 
 const graphSearch = (minutesLeft: number) => {
   const queue: Array < Item > = [];
@@ -146,7 +146,7 @@ const graphSearch = (minutesLeft: number) => {
   const visited = new Set<string>();
 
   while (queue.length > 0) {
-    const item = queue.pop();
+    const item = queue.pop()!;
     const {
       openValvesMask,
       remainingTime,

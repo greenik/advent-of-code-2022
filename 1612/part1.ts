@@ -90,7 +90,7 @@ const allValves: string[] = [];
 const valvesWithFlow: string[] = [];
 
 lines.forEach((line: string) => {
-  const matches = line.match(REGEX)
+  const matches: [void, string, string, string] = line.match(REGEX) as any;
   const [_, sourceValve, flowRateStr, destinationValves] = matches;
   const flowRate = +flowRateStr;
 
@@ -146,7 +146,7 @@ const graphSearch = (minutesLeft: number) => {
   const visited = new Set<string>();
 
   while (queue.length > 0) {
-    const item = queue.pop();
+    const item = queue.pop()!;
     const {
       openMask,
       remainingTime,

@@ -2166,7 +2166,7 @@ const MAXES = {
   y: 0,
   z: 0
 };
-const ADJECENT_CORDS = [
+const ADJECENT_CORDS: [number, number, number][] = [
   [1, 0, 0],
   [-1, 0, 0],
   [0, 1, 0],
@@ -2176,7 +2176,7 @@ const ADJECENT_CORDS = [
 ];
 
 const droplets = input.split('\n');
-let GRID;
+let GRID: number[][][];
 
 const findMaxes = () => {
   droplets.forEach((droplet: string) => {

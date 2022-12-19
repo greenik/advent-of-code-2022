@@ -1057,7 +1057,7 @@ $ ls
 const MAX_SIZE_TO_COUNT: number = 100000;
 const TOTAL_DISK_SIZE: number = 70000000;
 const FREE_SPACE_NEEDED_FOR_UPDATE = 30000000;
-const directoriesSizeMap = {};
+const directoriesSizeMap: Record<string, number> = {};
 const lines: string[] = input.split('\n');
 let currentPath: string[] = ['/'];
 

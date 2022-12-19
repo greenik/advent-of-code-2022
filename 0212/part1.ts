@@ -2503,13 +2503,13 @@ B X
 C Y
 C Y`
 
-const POINTS_TABLE = {
+const POINTS_TABLE: Record<string, number> = {
   X: 1,
   Y: 2,
   Z: 3
 }
 
-const RESULTS_TABLE = {
+const RESULTS_TABLE: Record<string, Record<string, number>> = {
   // ROCK
   A: {
     X: 3, // ROCK

@@ -2279,7 +2279,7 @@ const TOP_OF = 3;
 
 let sumOfTopElvesInventories = 0;
 
-Array.apply(null, Array(TOP_OF)).forEach((_: void, index: number) => {
+Array.apply(null, Array(TOP_OF)).forEach((_: unknown, index: number) => {
   const calories = Object.values(elvesInventoriesTotal[index])[0];
   sumOfTopElvesInventories += calories;
 })

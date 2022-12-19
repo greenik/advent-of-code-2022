@@ -2008,7 +2008,7 @@ L 15
 D 11
 R 8`;
 
-const HEAD_GRID_CHANGES = {
+const HEAD_GRID_CHANGES: Record<string, { axis: number, change: number }> = {
   'R': {
     axis: 0,
     change: 1
@@ -2043,7 +2043,7 @@ let maximums = {
 }
 
 const checkIfTailShouldMove = (movedCords: [number, number], tailIndex: number): boolean => {
-  const tailPossibleCords = [
+  const tailPossibleCords: [number, number][] = [
     [movedCords[0] - 1, movedCords[1] + 1],
     [movedCords[0], movedCords[1] + 1],
     [movedCords[0] + 1, movedCords[1] + 1],
@@ -2114,7 +2114,7 @@ const getNewTailCords = (tailIndex: number): [number, number] => {
 const drawCurrentStage = () => {
   const GRID_SIZE = 40;
   const HALF_GRID_SIZE = Math.floor(GRID_SIZE / 2);
-  const grid = [];
+  const grid: string[][] = [];
   for (let i = 0; i < GRID_SIZE; i++) {
     grid.push([]);
     for (let j = 0; j < GRID_SIZE; j++) {

@@ -146,7 +146,7 @@ const searchShortestWay = (sPoint: GraphPointTwo, ePoint: GraphPointTwo): number
   let distance = Number.POSITIVE_INFINITY;
 
   while (queue.length) {
-    const [point, currDistance] = queue.shift();
+    const [point, currDistance] = queue.shift()!;
     if (point.getStr() === ePoint.getStr()) {
       distance = currDistance
       break;

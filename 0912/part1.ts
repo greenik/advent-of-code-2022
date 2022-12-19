@@ -2016,7 +2016,7 @@ let headCords: [number, number] = [0, 0]; // x, y
 let tailCords: [number, number] = [0, 0]; // x, y
 
 const checkIfTailShouldMove = (): boolean => {
-  const tailPossibleCords = [
+  const tailPossibleCords: [number, number][] = [
     [headCords[0] - 1, headCords[1] + 1],
     [headCords[0], headCords[1] + 1],
     [headCords[0] + 1, headCords[1] + 1],
@@ -2031,7 +2031,7 @@ const checkIfTailShouldMove = (): boolean => {
   return !tailPossibleCords.filter((cords: [number, number]) => tailCords[0] === cords[0] && tailCords[1] === cords[1]).length;
 }
 
-const HEAD_GRID_CHANGES = {
+const HEAD_GRID_CHANGES: Record<string, { axis: number, change: number }> = {
   'R': { axis: 0, change: 1 },
   'D': { axis: 1, change: -1 },
   'L': { axis: 0, change: -1 },

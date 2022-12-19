@@ -316,7 +316,7 @@ const getOperationTime = (operation: string): number => {
 }
 
 let startNextOperationCycle = getOperationTime(operations[0]);
-const screen = [];
+const screen: string[][] = [];
 
 while(!shouldEnd) {
   const line = Math.floor(cycle/LINE_LEN);

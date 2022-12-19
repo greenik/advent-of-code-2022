@@ -161,7 +161,7 @@ const drawCave = (maxHeight: number) => {
   }
 }
 
-const checkIfHighestPointIsFull = (highestPoint: number): boolean => {
+const checkIfHighestPointIsFull = (highestPoint: number): boolean | undefined => {
   if (highestPoint === 0) {
     return;
   }
@@ -186,7 +186,7 @@ const calculateScoreAfterCycleFound = (highestPointMemo: number) => {
   const cycleMapKey = nextRockIndex % numberOfRocksInCycle;
   
   if (cycleMap.has(rocksLeftAfterLastCycle)) {
-    return cycleMap.get(rocksLeftAfterLastCycle) + heightAfterAllFullCycles;
+    return cycleMap.get(rocksLeftAfterLastCycle)! + heightAfterAllFullCycles;
   }
 
   if (!cycleMap.has(cycleMapKey)) {
