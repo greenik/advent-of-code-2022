@@ -58,13 +58,16 @@ interface Blueprint {
   id: number;
   oreRobot: {
     ore: number;
+    maxRobots: number;
   },
   clayRobot: {
     ore: number;
+    maxRobots: number;
   },
   obsidianRobot: {
     ore: number;
     clay: number;
+    maxRobots: number;
   },
   geodeRobot: {
     ore: number;
@@ -132,14 +135,17 @@ rows.forEach((row: string) => {
   blueprints.push({
     id: blueprintId,
     oreRobot: {
-      ore: oreRobotOreCost
+      ore: oreRobotOreCost,
+      maxRobots: Math.max(oreRobotOreCost, clayRobotOreCost, obsidianRobotOreCost, geodeRobotOreCost)
     },
     clayRobot: {
-      ore: clayRobotOreCost
+      ore: clayRobotOreCost,
+      maxRobots: obsidianRobotClayCost
     },
     obsidianRobot: {
       ore: obsidianRobotOreCost,
-      clay: obsidianRobotClayCost
+      clay: obsidianRobotClayCost,
+      maxRobots: geodeRobotObsidianCost
     },
     geodeRobot: {
       ore: geodeRobotOreCost,
@@ -147,27 +153,6 @@ rows.forEach((row: string) => {
     }
   });
 });
-
-const isOreProductionEnough = (blueprint: Blueprint, resourcesState: ResourcesState): boolean => {
-  return (
-    blueprint.oreRobot.ore <= resourcesState.ore.robots &&
-    blueprint.clayRobot.ore <= resourcesState.ore.robots &&
-    blueprint.obsidianRobot.ore <= resourcesState.ore.robots &&
-    blueprint.geodeRobot.ore <= resourcesState.ore.robots
-  );
-}
-
-const isClayProductionEnough = (blueprint: Blueprint, resourcesState: ResourcesState): boolean => {
-  return (
-    blueprint.obsidianRobot.clay <= resourcesState.clay.robots
-  );
-}
-
-const isObsidianProductionEnough = (blueprint: Blueprint, resourcesState: ResourcesState): boolean => {
-  return (
-    blueprint.geodeRobot.obsidian <= resourcesState.obsidian.robots
-  );
-}
 
 const getMaxGeodeObtained = (blueprint: Blueprint): number => {
   const visited = new SuperSet();
@@ -201,7 +186,7 @@ const getMaxGeodeObtained = (blueprint: Blueprint): number => {
     
     let producedRobot = false;
 
-    // Priority 1 - Buy geode robot
+    // Priority 1 - Produce geode robot
     if (
       blueprint.geodeRobot.obsidian <= obsidian.materials &&
       blueprint.geodeRobot.ore <= ore.materials
@@ -228,11 +213,11 @@ const getMaxGeodeObtained = (blueprint: Blueprint): number => {
       continue;
     }
 
-    // Priority 2 - Buy obsidian robot
+    // Priority 2 - Produce obsidian robot
     if (
       blueprint.obsidianRobot.clay <= clay.materials &&
       blueprint.obsidianRobot.ore <= ore.materials &&
-      !isObsidianProductionEnough(blueprint, currentState)
+      blueprint.obsidianRobot.maxRobots !== currentState.obsidian.robots
     ) {
       queue.push({
         minutesLeft: minutesLeft - 1,
@@ -253,13 +238,13 @@ const getMaxGeodeObtained = (blueprint: Blueprint): number => {
           materials: geode.materials + geode.robots
         }
       });
-      producedRobot = true;
+      continue;
     }
 
-    // Priority 3 - buy clay robot at 50% chance
+    // Priority 3 - Produce clay robot at 50% chance
     if (
       blueprint.clayRobot.ore <= ore.materials &&
-      !isClayProductionEnough(blueprint, currentState) &&
+      blueprint.clayRobot.maxRobots !== currentState.clay.robots &&
       Math.random() > 0.5
     ) {
       queue.push({
@@ -284,10 +269,10 @@ const getMaxGeodeObtained = (blueprint: Blueprint): number => {
       producedRobot = true;
     }
 
-    // Priority 4 - buy ore robot at 50% chance
+    // Priority 4 - Produce ore robot at 50% chance
     if (
       blueprint.oreRobot.ore <= ore.materials &&
-      !isOreProductionEnough(blueprint, currentState) &&
+      blueprint.oreRobot.maxRobots !== currentState.ore.robots &&
       Math.random() > 0.5
     ) {
       queue.push({
@@ -346,7 +331,7 @@ blueprints.forEach((blueprint: Blueprint) => {
   // due to above, I'm randomly choosing if ore and clay robot should be built or not (50% chance)
   // so I need to check various scenarios by calculating the same blueprint many times - it's similar to Monte Carlo algorithm
   // time consuming a bit, but it's working!
-  for (let i = 0; i < 5000; i++) {
+  for (let i = 0; i < 10000; i++) {
     const best = getMaxGeodeObtained(blueprint);
     if (best > max) {
       max = best;

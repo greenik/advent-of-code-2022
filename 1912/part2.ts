@@ -58,13 +58,16 @@ interface Blueprint {
   id: number;
   oreRobot: {
     ore: number;
+    maxRobots: number;
   },
   clayRobot: {
     ore: number;
+    maxRobots: number;
   },
   obsidianRobot: {
     ore: number;
     clay: number;
+    maxRobots: number;
   },
   geodeRobot: {
     ore: number;
@@ -132,14 +135,17 @@ rows.forEach((row: string) => {
   blueprints.push({
     id: blueprintId,
     oreRobot: {
-      ore: oreRobotOreCost
+      ore: oreRobotOreCost,
+      maxRobots: Math.max(oreRobotOreCost, clayRobotOreCost, obsidianRobotOreCost, geodeRobotOreCost)
     },
     clayRobot: {
-      ore: clayRobotOreCost
+      ore: clayRobotOreCost,
+      maxRobots: obsidianRobotClayCost
     },
     obsidianRobot: {
       ore: obsidianRobotOreCost,
-      clay: obsidianRobotClayCost
+      clay: obsidianRobotClayCost,
+      maxRobots: geodeRobotObsidianCost
     },
     geodeRobot: {
       ore: geodeRobotOreCost,
@@ -199,7 +205,7 @@ const getMaxGeodeObtained = (blueprint: Blueprint): number => {
       continue;
     }
     
-    let boughtRobot = false;
+    let producedRobot = false;
     // Priority 1 - produce geode robot
     if (
       blueprint.geodeRobot.obsidian <= obsidian.materials &&
@@ -252,7 +258,7 @@ const getMaxGeodeObtained = (blueprint: Blueprint): number => {
           materials: geode.materials + geode.robots
         }
       });
-      boughtRobot = true;
+      continue;
     }
 
     // Priority 3 - produce clay robot
@@ -276,10 +282,10 @@ const getMaxGeodeObtained = (blueprint: Blueprint): number => {
           materials: geode.materials + geode.robots
         }
       });
-      boughtRobot = true;
+      producedRobot = true;
     }
 
-    // Priority 4 - produce ore robot
+    // Priority 4 - Produce ore robot
     if (blueprint.oreRobot.ore <= ore.materials && !isOreProductionEnough(blueprint, currentState)) {
       queue.push({
         minutesLeft: minutesLeft - 1,
@@ -300,11 +306,11 @@ const getMaxGeodeObtained = (blueprint: Blueprint): number => {
           materials: geode.materials + geode.robots
         }
       });
-      boughtRobot = true;
+      producedRobot = true;
     }
 
     // Priority 5 - if not produced any robot - just collect materials
-    if (!boughtRobot) {
+    if (!producedRobot) {
       queue.push({
         minutesLeft: minutesLeft - 1,
         ore: {
